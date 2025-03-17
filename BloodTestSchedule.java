@@ -10,8 +10,12 @@ package bloodtestschedule;
  * 15/03/2025
  * BloodTestSchedule.java Ver 1.0
  */
-    public interface BloodTestSchedule {
+
+public interface BloodTestSchedule {
     String getName();
     String getPriority();
     String getGPDetails();
+    int getAge();
+    boolean fromHospital();
 }
+
