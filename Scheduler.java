@@ -27,21 +27,23 @@ public class Scheduler {
         requestList = new ArrayList<>();
         
         priorityQueue = new PriorityQueue<>(new Comparator<BloodTestSchedule>() {
-            
-            // detemine priority, lower number = higher priority, 
-            @Override
+        @Override
             public int compare(BloodTestSchedule p1, BloodTestSchedule p2) {
+             // compare priority between 2 patients
                 int comp = Integer.compare(getPriorityValue(p1.getPriority()), getPriorityValue(p2.getPriority()));
                 if (comp != 0) return comp;
-                
-                //statement determines if priorities are equal, give preference to patients coming from hospital.
+        
+                // if similar priorities, compare ages
+                int ageComp = Integer.compare(p2.getAge(), p1.getAge());
+                if (ageComp != 0) return ageComp;
+        
+                // if similar priorities and ages compare if they are coming from hospital or not
                 if (p1.fromHospital() && !p2.fromHospital()) return -1;
                 if (!p1.fromHospital() && p2.fromHospital()) return 1;
-                
-                // if both patients coming from hospital, elder patients get priority
-                return Integer.compare(p2.getAge(), p1.getAge());
-            }
-        });
+        
+            return 0;
+    }
+});
     }
     
     // assign priority to a number for sorting
@@ -81,13 +83,13 @@ public class Scheduler {
         return priorityQueue.peek();
     }
     
-    // find next person in queue and remove from arraylist
+    // Removes and returns the next patient from the priority queue and arraylist
     public BloodTestSchedule processNextPerson() {
         BloodTestSchedule next = priorityQueue.poll();
         if (next != null) {
-            requestList.remove(next);
+        requestList.remove(next);
         }
-        return next;
+    return next;
     }
 }
 
