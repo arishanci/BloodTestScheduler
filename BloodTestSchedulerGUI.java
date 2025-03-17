@@ -37,12 +37,12 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
         priorityLabel = new javax.swing.JLabel();
         gpLabel = new javax.swing.JLabel();
         ageLabel = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        fromHospitalLabel = new javax.swing.JLabel();
+        addButton = new javax.swing.JButton();
+        displayButton = new javax.swing.JButton();
+        viewNextButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        displayAreaText = new javax.swing.JTextArea();
         fromHospitalCheckBox = new javax.swing.JCheckBox();
         nameTextField = new javax.swing.JTextField();
         gpTextField = new javax.swing.JTextField();
@@ -62,22 +62,27 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
 
         ageLabel.setText("Age");
 
-        jLabel5.setText("From Hospital");
+        fromHospitalLabel.setText("From Hospital");
 
-        jButton1.setText("Add");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Display");
+        displayButton.setText("Display");
+        displayButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                displayButtonActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("View Next Person");
+        viewNextButton.setText("View Next Person");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        displayAreaText.setColumns(20);
+        displayAreaText.setRows(5);
+        jScrollPane1.setViewportView(displayAreaText);
 
         fromHospitalCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,7 +104,7 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
+                            .addComponent(fromHospitalLabel)
                             .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(gpLabel)
                             .addComponent(ageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -117,11 +122,11 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(addButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(displayButton)
                         .addGap(66, 66, 66)
-                        .addComponent(jButton3)))
+                        .addComponent(viewNextButton)))
                 .addGap(60, 60, 60))
         );
         jPanel1Layout.setVerticalGroup(
@@ -148,13 +153,13 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
                     .addComponent(ageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
+                    .addComponent(fromHospitalLabel)
                     .addComponent(fromHospitalCheckBox))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(addButton)
+                    .addComponent(displayButton)
+                    .addComponent(viewNextButton))
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -174,13 +179,56 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // get and store Patient Details
+        String name = nameTextField.getText().trim();
+        String gpDetails = gpTextField.getText().trim();
+        String priority = (String) priorityComboBox.getSelectedItem();
+        String ageStr = ageTextField.getText().trim();
+        int age = 0;
+        
+        //try catch block for error handling
+        try {age = Integer.parseInt(ageStr);
+            } catch (NumberFormatException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a valid age.");
+           return;
+            }
+        
+        boolean fromHospital = fromHospitalCheckBox.isSelected();
+
+        // create a new BloodTestManager object
+        BloodTestSchedule patient = new BloodTestManager(name, priority, gpDetails, age, fromHospital);
+    
+        // Add the patient to the Scheduler
+        scheduler.addRequest(patient);
+    
+        // clear fields after adding
+        nameTextField.setText("");
+        gpTextField.setText("");
+        ageTextField.setText("");
+        fromHospitalCheckBox.setSelected(false);
+    
+        javax.swing.JOptionPane.showMessageDialog(this, "Patient added successfully!");
+
+    }//GEN-LAST:event_addButtonActionPerformed
 
     private void fromHospitalCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromHospitalCheckBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fromHospitalCheckBoxActionPerformed
+
+    private void displayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayButtonActionPerformed
+        //get patient data from scheduler                                
+        java.util.List<BloodTestSchedule> patients = scheduler.getAllRequests();
+    
+        // stringbuilder for data display
+        StringBuilder sb = new StringBuilder();
+        for (BloodTestSchedule patient : patients) {
+        sb.append(patient.toString()).append("\n");
+        }
+    
+        // Sset results to display inside text area
+        displayAreaText.setText(sb.toString());
+    }//GEN-LAST:event_displayButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -218,23 +266,23 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
     private javax.swing.JLabel ageLabel;
     private javax.swing.JTextField ageTextField;
+    private javax.swing.JTextArea displayAreaText;
+    private javax.swing.JButton displayButton;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JCheckBox fromHospitalCheckBox;
+    private javax.swing.JLabel fromHospitalLabel;
     private javax.swing.JLabel gpLabel;
     private javax.swing.JTextField gpTextField;
     private javax.swing.JLabel headerLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JComboBox<String> priorityComboBox;
     private javax.swing.JLabel priorityLabel;
+    private javax.swing.JButton viewNextButton;
     // End of variables declaration//GEN-END:variables
 }
