@@ -12,12 +12,14 @@ package bloodtestschedule;
  */
 public class BloodTestSchedulerGUI extends javax.swing.JFrame {
     private Scheduler scheduler;
+    private AbsenceTracker absenceTracker;
 
     /**
      * Creates new form BloodTestSchedulerGUI
      */
     public BloodTestSchedulerGUI() {
         scheduler = new Scheduler();
+        absenceTracker = new AbsenceTracker();
         initComponents();
     }
 
@@ -43,11 +45,13 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
         viewNextButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         displayAreaText = new javax.swing.JTextArea();
-        fromHospitalCheckBox = new javax.swing.JCheckBox();
+        fromHospitalCheckbox = new javax.swing.JCheckBox();
         nameTextField = new javax.swing.JTextField();
         gpTextField = new javax.swing.JTextField();
         ageTextField = new javax.swing.JTextField();
         priorityComboBox = new javax.swing.JComboBox<>();
+        absentLabel = new javax.swing.JLabel();
+        absentCheckbox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,18 +83,31 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
         });
 
         viewNextButton.setText("View Next Person");
+        viewNextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewNextButtonActionPerformed(evt);
+            }
+        });
 
         displayAreaText.setColumns(20);
         displayAreaText.setRows(5);
         jScrollPane1.setViewportView(displayAreaText);
 
-        fromHospitalCheckBox.addActionListener(new java.awt.event.ActionListener() {
+        fromHospitalCheckbox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fromHospitalCheckBoxActionPerformed(evt);
+                fromHospitalCheckboxActionPerformed(evt);
             }
         });
 
         priorityComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Low", "Medium", "Urgent", " " }));
+
+        absentLabel.setText("Absent");
+
+        absentCheckbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                absentCheckboxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -111,7 +128,7 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
                             .addComponent(priorityLabel))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(fromHospitalCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fromHospitalCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nameTextField)
                             .addComponent(gpTextField)
                             .addComponent(ageTextField)
@@ -124,9 +141,15 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(addButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                        .addComponent(displayButton)
-                        .addGap(66, 66, 66)
-                        .addComponent(viewNextButton)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(absentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(absentCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(displayButton)
+                                .addGap(66, 66, 66)
+                                .addComponent(viewNextButton)))))
                 .addGap(60, 60, 60))
         );
         jPanel1Layout.setVerticalGroup(
@@ -152,9 +175,13 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
                         .addComponent(ageLabel))
                     .addComponent(ageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fromHospitalLabel)
-                    .addComponent(fromHospitalCheckBox))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(fromHospitalLabel)
+                        .addComponent(fromHospitalCheckbox))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(absentLabel)
+                        .addComponent(absentCheckbox)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton)
@@ -194,7 +221,7 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
            return;
             }
         
-        boolean fromHospital = fromHospitalCheckBox.isSelected();
+        boolean fromHospital = fromHospitalCheckbox.isSelected();
 
         // create a new BloodTestManager object
         BloodTestSchedule patient = new BloodTestManager(name, priority, gpDetails, age, fromHospital);
@@ -206,15 +233,15 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
         nameTextField.setText("");
         gpTextField.setText("");
         ageTextField.setText("");
-        fromHospitalCheckBox.setSelected(false);
+        fromHospitalCheckbox.setSelected(false);
     
         javax.swing.JOptionPane.showMessageDialog(this, "Patient added successfully!");
 
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void fromHospitalCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromHospitalCheckBoxActionPerformed
+    private void fromHospitalCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromHospitalCheckboxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_fromHospitalCheckBoxActionPerformed
+    }//GEN-LAST:event_fromHospitalCheckboxActionPerformed
 
     private void displayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayButtonActionPerformed
         //get patient data from scheduler                                
@@ -229,6 +256,30 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
         // Sset results to display inside text area
         displayAreaText.setText(sb.toString());
     }//GEN-LAST:event_displayButtonActionPerformed
+
+    private void viewNextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewNextButtonActionPerformed
+        // if patient exists, add patient else prompted no patients in Q.
+                                        
+        BloodTestSchedule nextPatient = scheduler.getNextPerson();
+            if (nextPatient != null) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Next patient:\n" + nextPatient.toString());
+            } else {
+        javax.swing.JOptionPane.showMessageDialog(this, "No patients in the queue.");
+    }
+
+
+    }//GEN-LAST:event_viewNextButtonActionPerformed
+
+    private void absentCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_absentCheckboxActionPerformed
+        // if a patient is marked as absent, msg dialog appears as patient marked as no show
+        BloodTestSchedule noShowPatient = scheduler.processNextPerson();
+        if (noShowPatient != null) {
+            absenceTracker.addAbsence(noShowPatient);
+            javax.swing.JOptionPane.showMessageDialog(this, "Marked as no-show:\n" + noShowPatient.toString());
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "No patient available to mark as no-show.");
+        }
+    }//GEN-LAST:event_absentCheckboxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -266,13 +317,15 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox absentCheckbox;
+    private javax.swing.JLabel absentLabel;
     private javax.swing.JButton addButton;
     private javax.swing.JLabel ageLabel;
     private javax.swing.JTextField ageTextField;
     private javax.swing.JTextArea displayAreaText;
     private javax.swing.JButton displayButton;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.JCheckBox fromHospitalCheckBox;
+    private javax.swing.JCheckBox fromHospitalCheckbox;
     private javax.swing.JLabel fromHospitalLabel;
     private javax.swing.JLabel gpLabel;
     private javax.swing.JTextField gpTextField;
