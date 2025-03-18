@@ -21,14 +21,16 @@ public class AbsenceTracker {
     public void addAbsence(BloodTestSchedule request) {
         absenceQueue.enqueue(request);
         
-        while (absenceQueue.size() > 5) { //saves last 5 entries
+        while (absenceQueue.size() > 5) { //saves last 5 entries removes oldest
             absenceQueue.dequeue();
         }
     }
     
-    public BloodTestSchedule[] getAbsences() {
+    public BloodTestSchedule[] getAbsences() { //returns array of absences
         int size = absenceQueue.size();
         BloodTestSchedule[] array = new BloodTestSchedule[size];
+        
+        //loop dequeues and enqueues each element to keep order
         for (int i = 0; i < size; i++) {
             BloodTestSchedule element = absenceQueue.dequeue();
             array[i] = element;
@@ -36,12 +38,5 @@ public class AbsenceTracker {
         }
         return array;
     }
-    
-    public void displayAbsences() {
-        BloodTestSchedule[] absences = getAbsences(); //display absences
-        System.out.println("No-Show List:");
-        for (BloodTestSchedule req : absences) {
-            System.out.println(req);
-        }
-    }
+
 }

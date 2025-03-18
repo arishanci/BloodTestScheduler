@@ -27,7 +27,7 @@ public class BloodTestManager implements BloodTestSchedule { //implements serial
     }
 
     @Override
-    public String getName() {
+    public String getName() { //getters
         return name;
     }
 
