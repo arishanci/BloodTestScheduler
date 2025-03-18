@@ -15,7 +15,7 @@ package bloodtestschedule;
 public class ArrayRequestList<T> implements ListInterface<T> {
     private T[] data;
     private int count;
-    private static final int INITIAL_CAPACITY = 10;
+    private static final int INITIAL_CAPACITY = 10; //initial array stores 10
 
     public ArrayRequestList() {
         data = (T[]) new Object[INITIAL_CAPACITY];
@@ -23,23 +23,23 @@ public class ArrayRequestList<T> implements ListInterface<T> {
     }
 
     @Override
-    public void add(T element) {
+    public void add(T element) { 
         if(count == data.length) {
             resize();
         }
-        data[count++] = element;
+        data[count++] = element; //when element is added count is increased by 1
     }
 
     private void resize() {
-        T[] newData = (T[]) new Object[data.length * 2];
+        T[] newData = (T[]) new Object[data.length * 2]; //new array created at double the size if limit is hit
         for (int i = 0; i < data.length; i++) {
             newData[i] = data[i];
         }
-        data = newData;
+        data = newData; //new array replaced old array
     }
 
     @Override
-    public boolean remove(T element) {
+    public boolean remove(T element) { //remove from array
         for (int i = 0; i < count; i++) {
             if(data[i].equals(element)) {
                 for (int j = i; j < count - 1; j++) {

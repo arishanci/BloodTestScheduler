@@ -50,8 +50,8 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
         gpTextField = new javax.swing.JTextField();
         ageTextField = new javax.swing.JTextField();
         priorityComboBox = new javax.swing.JComboBox<>();
-        absentLabel = new javax.swing.JLabel();
-        absentCheckbox = new javax.swing.JCheckBox();
+        displayAbsencesButton = new javax.swing.JButton();
+        addAbsenceButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,7 +82,7 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
             }
         });
 
-        viewNextButton.setText("View Next Person");
+        viewNextButton.setText("View Priority Patient");
         viewNextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewNextButtonActionPerformed(evt);
@@ -101,11 +101,17 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
 
         priorityComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Low", "Medium", "Urgent", " " }));
 
-        absentLabel.setText("Absent");
-
-        absentCheckbox.addActionListener(new java.awt.event.ActionListener() {
+        displayAbsencesButton.setText("View Absences");
+        displayAbsencesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                absentCheckboxActionPerformed(evt);
+                displayAbsencesButtonActionPerformed(evt);
+            }
+        });
+
+        addAbsenceButton.setText("Add to Absence List");
+        addAbsenceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addAbsenceButtonActionPerformed(evt);
             }
         });
 
@@ -121,12 +127,16 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fromHospitalLabel)
-                            .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(gpLabel)
-                            .addComponent(ageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(priorityLabel))
-                        .addGap(18, 18, 18)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(gpLabel)
+                                    .addComponent(ageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(priorityLabel))
+                                .addGap(39, 39, 39))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(fromHospitalLabel)
+                                .addGap(18, 18, 18)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(fromHospitalCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nameTextField)
@@ -134,23 +144,24 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
                             .addComponent(ageTextField)
                             .addComponent(priorityComboBox, 0, 172, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(addButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addContainerGap()
+                        .addComponent(addAbsenceButton))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(absentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(absentCheckbox, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(addButton)
+                                .addGap(18, 18, 18)
                                 .addComponent(displayButton)
-                                .addGap(66, 66, 66)
-                                .addComponent(viewNextButton)))))
-                .addGap(60, 60, 60))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(viewNextButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(displayAbsencesButton)))))
+                .addGap(0, 66, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,38 +169,38 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(headerLabel)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameLabel)
-                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(priorityLabel)
-                    .addComponent(priorityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(gpLabel)
-                            .addComponent(gpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(nameLabel)
+                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(ageLabel))
-                    .addComponent(ageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(fromHospitalLabel)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(priorityLabel)
+                            .addComponent(priorityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(gpLabel)
+                                    .addComponent(gpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(ageLabel))
+                            .addComponent(ageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addComponent(fromHospitalCheckbox))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(absentLabel)
-                        .addComponent(absentCheckbox)))
+                    .addComponent(fromHospitalLabel))
+                .addGap(19, 19, 19)
+                .addComponent(addAbsenceButton)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton)
                     .addComponent(displayButton)
-                    .addComponent(viewNextButton))
-                .addGap(30, 30, 30)
+                    .addComponent(viewNextButton)
+                    .addComponent(displayAbsencesButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -244,43 +255,55 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_fromHospitalCheckboxActionPerformed
 
     private void displayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayButtonActionPerformed
-        //get patient data from scheduler                                
-        java.util.List<BloodTestSchedule> patients = scheduler.getAllRequests();
-    
-        // stringbuilder for data display
+       //build string for all patients in scheduler to display
+        BloodTestSchedule[] patients = scheduler.getAllRequests();
         StringBuilder sb = new StringBuilder();
         for (BloodTestSchedule patient : patients) {
-        sb.append(patient.toString()).append("\n");
+            sb.append(patient.toString()).append("\n");
         }
-    
-        // Sset results to display inside text area
         displayAreaText.setText(sb.toString());
     }//GEN-LAST:event_displayButtonActionPerformed
 
     private void viewNextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewNextButtonActionPerformed
-        // if patient exists, add patient else prompted no patients in Q.
+        // view priority patients
                                         
         BloodTestSchedule nextPatient = scheduler.getNextPerson();
             if (nextPatient != null) {
         javax.swing.JOptionPane.showMessageDialog(this, "Next patient:\n" + nextPatient.toString());
             } else {
         javax.swing.JOptionPane.showMessageDialog(this, "No patients in the queue.");
-    }
-
-
+        }
     }//GEN-LAST:event_viewNextButtonActionPerformed
 
-    private void absentCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_absentCheckboxActionPerformed
-        // if a patient is marked as absent, msg dialog appears as patient marked as no show
-        BloodTestSchedule noShowPatient = scheduler.processNextPerson();
-        if (noShowPatient != null) {
-            absenceTracker.addAbsence(noShowPatient);
-            javax.swing.JOptionPane.showMessageDialog(this, "Marked as no-show:\n" + noShowPatient.toString());
+    private void displayAbsencesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayAbsencesButtonActionPerformed
+        // TODO add your handling code here:                                                                                             
+    // get the absence list from the absence tracker
+    BloodTestSchedule[] absences = absenceTracker.getAbsences();
+        StringBuilder sb = new StringBuilder();
+        if(absences.length == 0) {
+            sb.append("No patients on absence list.");
         } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "No patient available to mark as no-show.");
+            sb.append("Absence List:\n");
+            for(BloodTestSchedule patient : absences) {
+                sb.append(patient.toString()).append("\n");
+            }
         }
-    }//GEN-LAST:event_absentCheckboxActionPerformed
+        javax.swing.JOptionPane.showMessageDialog(this, sb.toString(), "Absence List", javax.swing.JOptionPane.INFORMATION_MESSAGE);        
+    }//GEN-LAST:event_displayAbsencesButtonActionPerformed
 
+    private void addAbsenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAbsenceButtonActionPerformed
+        // removes patient from scheduler to add to absence tracker
+        BloodTestSchedule noShowPatient = scheduler.processNextPerson();
+    if(noShowPatient != null) {
+            // Add patient to absence tracker
+            absenceTracker.addAbsence(noShowPatient);
+            javax.swing.JOptionPane.showMessageDialog(this, "Patient has been marked absent.");
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "No patient has been marked as absent.");
+        }       
+    }//GEN-LAST:event_addAbsenceButtonActionPerformed
+        /**    */
+    
     /**
      * @param args the command line arguments
      */
@@ -317,11 +340,11 @@ public class BloodTestSchedulerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox absentCheckbox;
-    private javax.swing.JLabel absentLabel;
+    private javax.swing.JButton addAbsenceButton;
     private javax.swing.JButton addButton;
     private javax.swing.JLabel ageLabel;
     private javax.swing.JTextField ageTextField;
+    private javax.swing.JButton displayAbsencesButton;
     private javax.swing.JTextArea displayAreaText;
     private javax.swing.JButton displayButton;
     private javax.swing.Box.Filler filler1;

@@ -8,14 +8,13 @@ package bloodtestschedule;
  *
  * @author Arisha Mirza
  * 18/03/2025
- * PQInterface.java Ver 1.0
+ * QueueInterface.java Ver 1.0
  */
 
-public interface PQInterface<T> {
-    void add(T element);
-    T remove();   // returns highest priorty element and removes from queue
-    T peek();     // returns highest priority element but does not remove from queue
+public interface QueueInterface<T> {
+    void enqueue(T element);
+    T dequeue();
+    T peek();
     boolean isEmpty();
     int size();
 }
-
